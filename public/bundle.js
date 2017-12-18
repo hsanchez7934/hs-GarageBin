@@ -76,7 +76,101 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-__WEBPACK_IMPORTED_MODULE_0_jquery___default()(document).ready(console.log('working'));
+getGarageItems();
+
+function GarageItem(title, body) {
+  this.title = title;
+  this.body = body;
+  this.ratings = ['Rancid', 'Dusty', 'Sparkling'];
+  this.index = 0;
+  this.currentRating = this.ratings[this.index];
+}
+
+__WEBPACK_IMPORTED_MODULE_0_jquery___default()('#submit-button').on('click', onSubmitButtonClick);
+__WEBPACK_IMPORTED_MODULE_0_jquery___default()('#garage-items-container').on('click', '.delete-item-button', onDeleteGarageItemButtonClick);
+
+function onSubmitButtonClick() {
+  const userTitle = __WEBPACK_IMPORTED_MODULE_0_jquery___default()('#title-input').val();
+  const userBody = __WEBPACK_IMPORTED_MODULE_0_jquery___default()('#body-input').val();
+  const newGarageItem = new GarageItem(userTitle, userBody);
+  postNewGarageItem(newGarageItem);
+  __WEBPACK_IMPORTED_MODULE_0_jquery___default()('#title-input').val('');
+  __WEBPACK_IMPORTED_MODULE_0_jquery___default()('#body-input').val('');
+}
+
+function onDeleteGarageItemButtonClick() {
+  console.log(this);
+}
+
+function destroyGarageItem(id) {
+  fetch(`/api/v1/items/${id}`, {
+    method: 'DELETE'
+  }).then(response => console.log('deleted')).catch(error => console.log(error));
+}
+
+function getGarageItems() {
+  fetch(`/api/v1/items`).then(response => {
+    if (response.status === 200) {
+      return response.json();
+    }
+  }).then(parsedResponse => parsedResponse.forEach(item => prependGarageItem(item)))
+  // eslint-disable-next-line
+  .catch(error => console.log(error));
+}
+
+function postNewGarageItem(item) {
+
+  const garageItem = {
+    title: item.title,
+    body: item.body,
+    rating: item.currentRating
+  };
+
+  fetch(`/api/v1/items`, {
+    method: 'POST',
+    body: JSON.stringify(garageItem),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }).then(response => {
+    if (response.status === 201) {
+      return response.json();
+    }
+  }).then(parsedResponse => {
+    prependGarageItem(parsedResponse);
+  })
+  // eslint-disable-next-line
+  .catch(error => console.log(error));
+}
+
+function prependGarageItem(item) {
+  __WEBPACK_IMPORTED_MODULE_0_jquery___default()('#garage-items-container').prepend(`
+    <article class="garage-item" id=${item.id}>
+      <section class="garage-item-title-container">
+        <h3 class='garage-item-title'>${item.title}</h3>
+        <div class="delete-item-button-container">
+          <button class="delete-item-button">Delete</button>
+        </div>
+      </section>
+        <p class='garage-item-body'>${item.body}</p>
+      <section class='garage-item-rating'>
+        <div class="drop-down-placeholder">
+          <p class='rating'>${item.rating}</p>
+          <div class="drop-down-icon-container">
+            <img src="" alt="">
+          </div>
+        </div>
+        <div class="drop-down-container">
+          <ul class="drop-down-list">
+            <li class="list-item">Rancid</li>
+            <li class="list-item">Dusty</li>
+            <li class="list-item">Sparkling</li>
+          </ul>
+        </div>
+      </section>
+    </article>
+  `);
+}
 
 /***/ }),
 /* 1 */
@@ -10378,7 +10472,7 @@ exports = module.exports = __webpack_require__(4)(undefined);
 
 
 // module
-exports.push([module.i, "header {\n  width: 100%;\n  height: 500px;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center; }\n\ninput {\n  height: 50px;\n  width: 40%;\n  padding-left: 10px;\n  font-size: 18px;\n  margin-bottom: 40px; }\n\n#submit-button {\n  width: 40%;\n  height: 50px;\n  font-size: 18px; }\n\n#submit-button:hover {\n  cursor: pointer;\n  background-color: pink; }\n\n#submit-button:focus {\n  outline: inherit; }\n\nmain {\n  width: 100%;\n  background-color: pink; }\n\n#filter-container {\n  width: 100%;\n  height: 100px;\n  background-color: blue;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  padding-top: 30px; }\n\n#garage-items-container {\n  background-color: green;\n  width: 100%;\n  padding: 50px 0px; }\n\n.garage-item {\n  background-color: red;\n  height: 500px;\n  width: 40%;\n  margin: 0px auto 50px auto; }\n\n.garage-item-title-container {\n  height: 10%;\n  width: 100%;\n  background-color: pink;\n  display: flex;\n  flex-direction: row; }\n\n.garage-item-title {\n  margin: 0;\n  width: 80%;\n  height: 100%; }\n\n.delete-item-button-container {\n  width: 20%;\n  height: 100%; }\n\n.garage-item-body {\n  height: 60%;\n  width: 100%;\n  background-color: white;\n  margin: 0; }\n\n.garage-item-rating {\n  height: 30%;\n  width: 100%;\n  background-color: purple;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center; }\n\n.drop-down-placeholder {\n  background-color: yellow;\n  width: 50%;\n  height: 50px; }\n\n* {\n  box-sizing: border-box;\n  padding: 0; }\n\nhtml {\n  font-size: 1em;\n  height: 100%;\n  width: 100%;\n  margin: 0;\n  padding: 0; }\n\nbody {\n  margin: 0;\n  padding: 0;\n  height: 100%;\n  width: 100%; }\n", ""]);
+exports.push([module.i, "header {\n  width: 100%;\n  height: 500px;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center; }\n\ninput {\n  height: 50px;\n  width: 40%;\n  padding-left: 10px;\n  font-size: 18px;\n  margin-bottom: 40px; }\n\n#submit-button {\n  width: 40%;\n  height: 50px;\n  font-size: 18px; }\n\n#submit-button:hover {\n  cursor: pointer;\n  background-color: pink; }\n\n#submit-button:focus {\n  outline: inherit; }\n\nmain {\n  width: 100%;\n  background-color: pink; }\n\n#filter-container {\n  width: 100%;\n  height: 100px;\n  background-color: blue;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  padding-top: 30px; }\n\n#garage-items-container {\n  background-color: green;\n  width: 100%;\n  padding: 50px 0px; }\n\n.garage-item {\n  background-color: red;\n  height: 500px;\n  width: 40%;\n  margin: 0px auto 50px auto; }\n\n.garage-item-title-container {\n  height: 10%;\n  width: 100%;\n  background-color: pink;\n  display: flex;\n  flex-direction: row; }\n\n.garage-item-title {\n  margin: 0;\n  width: 80%;\n  height: 100%; }\n\n.delete-item-button-container {\n  width: 20%;\n  height: 100%; }\n\n.garage-item-body {\n  height: 60%;\n  width: 100%;\n  background-color: white;\n  margin: 0; }\n\n.garage-item-rating {\n  height: 30%;\n  width: 100%;\n  background-color: purple;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center; }\n\n.drop-down-container {\n  background-color: red;\n  width: 50%; }\n\n.list-item {\n  text-align: center;\n  list-style: none; }\n\n.list-item:hover {\n  background-color: green;\n  cursor: pointer; }\n\n.drop-down-placeholder {\n  background-color: yellow;\n  width: 50%;\n  height: 50px; }\n\n* {\n  box-sizing: border-box;\n  padding: 0; }\n\nhtml {\n  font-size: 1em;\n  height: 100%;\n  width: 100%;\n  margin: 0;\n  padding: 0; }\n\nbody {\n  margin: 0;\n  padding: 0;\n  height: 100%;\n  width: 100%; }\n", ""]);
 
 // exports
 

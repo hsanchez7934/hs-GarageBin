@@ -63,6 +63,18 @@ main {
 
 .drop-down-container {
   // display: none;
+  background-color: red;
+  width: 50%;
+}
+
+.list-item {
+  text-align: center;
+  list-style: none;
+}
+
+.list-item:hover {
+  background-color: green;
+  cursor: pointer;
 }
 
 .drop-down-placeholder {
