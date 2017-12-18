@@ -45,7 +45,17 @@ app.post(`/api/v1/items`, (request, response) => {
     .catch(error => response.status(500).json(error));
 });
 
-app.delete()
+app.delete(`/api/v1/items/:id`, (request, response) => {
+  const { id } = request.params;
+
+  database('garage_items').where({ id }).del()
+    .then(item => {
+      return item
+        ? response.sendStatus(204)
+        : response.status(404).json({ error: `Garage item not found` });
+    })
+    .catch(error => response.status(500).json({ error }));
+});
 
 app.listen(app.get('port'), () => {
   // eslint-disable-next-line no-console
