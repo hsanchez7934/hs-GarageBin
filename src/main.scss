@@ -1,12 +1,10 @@
 main {
   width: 100%;
-  background-color: pink;
 }
 
 #filter-container {
   width: 100%;
   height: 100px;
-  background-color: blue;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,22 +12,20 @@ main {
 }
 
 #garage-items-container {
-  background-color: green;
   width: 100%;
   padding: 50px 0px;;
 }
 
 .garage-item {
-  background-color: red;
   height: 500px;
   width: 40%;
   margin: 0px auto 50px auto;
+  border-bottom: 1px solid #000;
 }
 
 .garage-item-title-container {
   height: 10%;
   width: 100%;
-  background-color: pink;
   display: flex;
   flex-direction: row;
 }
@@ -38,6 +34,7 @@ main {
   margin: 0;
   width: 80%;
   height: 100%;
+  font-size: 26px;
 }
 
 .delete-item-button-container {
@@ -50,22 +47,16 @@ main {
   width: 100%;
   background-color: white;
   margin: 0;
+  padding: 10px 0px;
 }
 
 .garage-item-rating {
   height: 30%;
   width: 100%;
-  background-color: purple;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-.drop-down-container {
-  // display: none;
-  background-color: red;
-  width: 50%;
 }
 
 .drop-down-list {
@@ -79,13 +70,54 @@ main {
   font-size: 16px;
 }
 
+.drop-down-hidden {
+  display: none;
+}
+
+.drop-down-visible {
+  display: block;
+  background-color: #000;
+  width: 20%;
+  position: absolute;
+  margin-top: 74px;
+  color: #f2f2f2;
+}
+
 .list-item:hover {
-  background-color: green;
+  background-color: #00b3b3;
   cursor: pointer;
+  color: #000;
 }
 
 .drop-down-placeholder {
-  background-color: yellow;
   width: 50%;
   height: 50px;
+  background-color: #004d4d;
+}
+
+.drop-down-placeholder:hover {
+  cursor: pointer;
+  background-color: #00b3b3;
+}
+
+.delete-item-button {
+  height: 40px;
+  width: 90px;
+  background-color: #004d4d;
+  color: #f2f2f2;
+  font-size: 14px;
+}
+
+.delete-item-button:hover {
+  background-color: #00b3b3;
+  color: #f2f2f2;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.rating {
+  color: #fff;
+  padding: 10px;
+  font-size: 20px;
+  margin: 0;
 }

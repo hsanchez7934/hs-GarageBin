@@ -5,10 +5,11 @@ header {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: #004d4d;
 }
 
 h1 {
-  // color: blue;
+  color: #f2f2f2;
 }
 
 input {
@@ -23,11 +24,15 @@ input {
   width: 40%;
   height: 50px;
   font-size: 18px;
+  font-weight: 600;
+  background-color: #999999;
+  color: #f2f2f2;
 }
 
 #submit-button:hover {
   cursor: pointer;
-  background-color: pink;
+  color: #000;
+  background-color: #f2f2f2;
 }
 
 #submit-button:focus {

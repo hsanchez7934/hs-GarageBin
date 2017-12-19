@@ -3,30 +3,40 @@ import './styles.scss';
 
 getGarageItems();
 
+$('#submit-button').on('click', onSubmitButtonClick);
+// eslint-disable-next-line
+$('#garage-items-container').on('click', '.delete-item-button', onDeleteGarageItemButtonClick)
+                            .on('click', '.list-item', onClickListItem)
+                            .on('click', '.drop-down-placeholder', placeHolderOnClick);
+
+
+function placeHolderOnClick() {
+  const sibling = $(this).siblings('.drop-down-hidden').toggleClass('drop-down-visible');
+  // console.log(sibling);
+}
+
 function GarageItem(title, body) {
   this.title = title;
   this.body = body;
   this.currentRating = 'Rancid';
 }
 
-$('#submit-button').on('click', onSubmitButtonClick);
-// eslint-disable-next-line
-$('#garage-items-container').on('click', '.delete-item-button', onDeleteGarageItemButtonClick);
-$('#garage-items-container').on('click', '.list-item', onClickListItem);
-
 function onClickListItem() {
   const dropDownPlaceholder = $(this).text();
-  $(this).closest('.drop-down-container').siblings().children('.rating').text(dropDownPlaceholder);
-  const id = $(this).closest('.drop-down-container').closest('.garage-item').attr('id');
+  $(this).closest('.drop-down-visible').siblings().children('.rating').text(dropDownPlaceholder);
+
+  const id = $(this).closest('.drop-down-visible').closest('.garage-item').attr('id');
   const title = $(this).closest('.garage-item-rating').siblings('.garage-item-title-container').children('.garage-item-title').text();
   const body = $(this).closest('.garage-item-rating').siblings('.garage-item-body').text();
-  const rating = $(this).closest('.drop-down-container').siblings().children('.rating').text();
+  const rating = $(this).closest('.drop-down-visible').siblings().children('.rating').text();
   const item = {
     title,
     body,
     rating
   };
   patchGarageItem(id, item);
+  $(this).closest('.drop-down-visible').toggleClass('drop-down-visible');
+
 }
 
 function patchGarageItem(id, item) {
@@ -121,6 +131,10 @@ function postNewGarageItem(item) {
     .catch(error => console.log(error));
 }
 
+function sortAlphabetically() {
+  
+}
+
 function prependGarageItem(item) {
   $('#garage-items-container').prepend(`
     <article class="garage-item" id=${item.id}>
@@ -138,7 +152,7 @@ function prependGarageItem(item) {
             <img src="" alt="">
           </div>
         </div>
-        <div class="drop-down-container">
+        <div class="drop-down-hidden">
           <ul class="drop-down-list">
             <li class="list-item">Rancid</li>
             <li class="list-item">Dusty</li>
