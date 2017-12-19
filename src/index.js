@@ -16,8 +16,8 @@ $('#garage-items-container').on('click', '.list-item', onClickListItem);
 
 function onClickListItem() {
   const dropDownPlaceholder = $(this).text();
-  const id = $(this).closest('.drop-down-container').closest('.garage-item').attr('id');
   $(this).closest('.drop-down-container').siblings().children('.rating').text(dropDownPlaceholder);
+  const id = $(this).closest('.drop-down-container').closest('.garage-item').attr('id');
   const title = $(this).closest('.garage-item-rating').siblings('.garage-item-title-container').children('.garage-item-title').text();
   const body = $(this).closest('.garage-item-rating').siblings('.garage-item-body').text();
   const rating = $(this).closest('.drop-down-container').siblings().children('.rating').text();
@@ -49,7 +49,9 @@ function patchGarageItem(id, item) {
         return response.json();
       }
     })
+    // eslint-disable-next-line
     .then(response => console.log(response))
+    // eslint-disable-next-line
     .catch(error => console.log(error));
 }
 

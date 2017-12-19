@@ -122,7 +122,11 @@ function patchGarageItem(id, item) {
     if (response.status === 204) {
       return response.json();
     }
-  }).then(response => console.log(response)).catch(error => console.log(error));
+  })
+  // eslint-disable-next-line
+  .then(response => console.log(response))
+  // eslint-disable-next-line
+  .catch(error => console.log(error));
 }
 
 function onSubmitButtonClick() {
