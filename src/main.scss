@@ -12,6 +12,7 @@ main {
   align-items: center;
   padding-top: 30px;
 }
+
 #garage-items-container {
   background-color: green;
   width: 100%;
@@ -67,9 +68,15 @@ main {
   width: 50%;
 }
 
+.drop-down-list {
+  margin: 0;
+}
+
 .list-item {
   text-align: center;
   list-style: none;
+  padding: 5px 0px;
+  font-size: 16px;
 }
 
 .list-item:hover {

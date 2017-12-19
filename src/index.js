@@ -6,13 +6,52 @@ getGarageItems();
 function GarageItem(title, body) {
   this.title = title;
   this.body = body;
-  this.ratings = ['Rancid', 'Dusty', 'Sparkling'];
-  this.index = 0;
-  this.currentRating = this.ratings[this.index];
+  this.currentRating = 'Rancid';
 }
 
 $('#submit-button').on('click', onSubmitButtonClick);
+// eslint-disable-next-line
 $('#garage-items-container').on('click', '.delete-item-button', onDeleteGarageItemButtonClick);
+$('#garage-items-container').on('click', '.list-item', onClickListItem);
+
+function onClickListItem() {
+  const dropDownPlaceholder = $(this).text();
+  const id = $(this).closest('.drop-down-container').closest('.garage-item').attr('id');
+  $(this).closest('.drop-down-container').siblings().children('.rating').text(dropDownPlaceholder);
+  const title = $(this).closest('.garage-item-rating').siblings('.garage-item-title-container').children('.garage-item-title').text();
+  const body = $(this).closest('.garage-item-rating').siblings('.garage-item-body').text();
+  const rating = $(this).closest('.drop-down-container').siblings().children('.rating').text();
+  const item = {
+    title,
+    body,
+    rating
+  };
+  patchGarageItem(id, item);
+}
+
+function patchGarageItem(id, item) {
+  const newItem = {
+    title: item.title,
+    body: item.body,
+    rating: item.rating
+  };
+
+  fetch(`/api/v1/items/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(newItem),
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    }
+  })
+    .then(response => {
+      if (response.status === 204) {
+        return response.json();
+      }
+    })
+    .then(response => console.log(response))
+    .catch(error => console.log(error));
+}
 
 function onSubmitButtonClick() {
   const userTitle = $('#title-input').val();
@@ -24,14 +63,18 @@ function onSubmitButtonClick() {
 }
 
 function onDeleteGarageItemButtonClick() {
-  console.log(this);
+  const id = $(this).closest('.garage-item').attr('id');
+  destroyGarageItem(id);
+  $(this).closest('.garage-item').remove();
 }
 
 function destroyGarageItem(id) {
   fetch(`/api/v1/items/${id}`, {
     method: 'DELETE',
   })
+  // eslint-disable-next-line
     .then(response => console.log('deleted'))
+    // eslint-disable-next-line
     .catch(error => console.log(error));
 }
 

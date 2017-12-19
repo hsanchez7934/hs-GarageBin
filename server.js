@@ -67,7 +67,7 @@ app.patch(`/api/v1/items/:id`, (request, response) => {
       { error: `Must send patch as object literal with keys of body, title, and rating with string value.`}
     );
   }
-
+  
   database('garage_items').where('id', id)
     .update(alteration, '*')
     .then(update =>
