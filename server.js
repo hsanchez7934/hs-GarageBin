@@ -45,7 +45,41 @@ app.post(`/api/v1/items`, (request, response) => {
     .catch(error => response.status(500).json(error));
 });
 
-app.delete()
+app.delete(`/api/v1/items/:id`, (request, response) => {
+  const { id } = request.params;
+
+  database('garage_items').where({ id }).del()
+    .then(item => {
+      return item
+        ? response.sendStatus(204)
+        : response.status(404).json({ error: `Garage item not found` });
+    })
+    .catch(error => response.status(500).json({ error }));
+});
+
+app.patch(`/api/v1/items/:id`, (request, response) => {
+  const { id } = request.params;
+  const alteration = request.body;
+
+  if (!alteration.title || !alteration.body || !alteration.rating) {
+    return response.status(422).json(
+      // eslint-disable-next-line max-len
+      { error: `Must send patch as object literal with keys of body, title, and rating with string value.`}
+    );
+  }
+  
+  database('garage_items').where('id', id)
+    .update(alteration, '*')
+    .then(update =>
+      !update.length
+        ? response.sendStatus(404)
+        : response.sendStatus(204)
+    )
+    .catch(error => response.status(500).json(
+      { error: `Not successful ${error} ` }
+    ));
+});
+
 
 app.listen(app.get('port'), () => {
   // eslint-disable-next-line no-console

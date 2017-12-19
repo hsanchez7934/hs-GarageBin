@@ -1,3 +1,6 @@
+@import "./header.scss";
+@import "./main.scss";
+
 * {
   box-sizing: border-box;
 
@@ -17,8 +20,4 @@ body {
   padding: 0;
   height: 100%;
   width: 100%;
-}
-
-h1 {
-  color: blue;
 }
