@@ -83,7 +83,7 @@ __WEBPACK_IMPORTED_MODULE_0_jquery___default()(document).ready(function () {
 
 function openGarage() {
   const door = __WEBPACK_IMPORTED_MODULE_0_jquery___default()('#wrapper');
-  door.slideUp(400);
+  door.slideUp(5000);
 }
 
 __WEBPACK_IMPORTED_MODULE_0_jquery___default()('#a-z-button').on('click', sortAZ);
