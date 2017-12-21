@@ -8,7 +8,7 @@ $(document).ready(function() {
 
 function openGarage() {
   const door = $('#wrapper');
-  door.slideUp(400);
+  door.slideUp(5000);
 }
 
 $('#a-z-button').on('click', sortAZ);
