@@ -2,17 +2,30 @@ import $ from 'jquery';
 import './styles.scss';
 
 getGarageItems();
+$(document).ready(function() {
+  openGarage();
+});
 
+function openGarage() {
+  const door = $('#wrapper');
+  door.slideUp(400);
+}
+
+$('#a-z-button').on('click', sortAZ);
+
+$('#garage-items-container').on('click', '.garage-item-title', hideInfo);
 $('#submit-button').on('click', onSubmitButtonClick);
 // eslint-disable-next-line
 $('#garage-items-container').on('click', '.delete-item-button', onDeleteGarageItemButtonClick)
+// eslint-disable-next-line
                             .on('click', '.list-item', onClickListItem)
+// eslint-disable-next-line
                             .on('click', '.drop-down-placeholder', placeHolderOnClick);
 
 
 function placeHolderOnClick() {
+  // eslint-disable-next-line
   const sibling = $(this).siblings('.drop-down-hidden').toggleClass('drop-down-visible');
-  // console.log(sibling);
 }
 
 function GarageItem(title, body) {
@@ -21,13 +34,18 @@ function GarageItem(title, body) {
   this.currentRating = 'Rancid';
 }
 
+
 function onClickListItem() {
   const dropDownPlaceholder = $(this).text();
+  // eslint-disable-next-line
   $(this).closest('.drop-down-visible').siblings().children('.rating').text(dropDownPlaceholder);
-
+  // eslint-disable-next-line
   const id = $(this).closest('.drop-down-visible').closest('.garage-item').attr('id');
+  // eslint-disable-next-line
   const title = $(this).closest('.garage-item-rating').siblings('.garage-item-title-container').children('.garage-item-title').text();
+  // eslint-disable-next-line
   const body = $(this).closest('.garage-item-rating').siblings('.garage-item-body').text();
+  // eslint-disable-next-line
   const rating = $(this).closest('.drop-down-visible').siblings().children('.rating').text();
   const item = {
     title,
@@ -131,20 +149,24 @@ function postNewGarageItem(item) {
     .catch(error => console.log(error));
 }
 
-function sortAlphabetically() {
-  
+function sortAZ() {
+  const list = $('#garage-items-container').children();
+  const array = Array.from(list);
+  console.log(array);
+  // array.sort();
+
 }
 
 function prependGarageItem(item) {
   $('#garage-items-container').prepend(`
     <article class="garage-item" id=${item.id}>
       <section class="garage-item-title-container">
-        <h3 class='garage-item-title'>${item.title}</h3>
+        <h3 class='garage-item-title'><span>Garage Item: </span> ${item.title}</h3>
         <div class="delete-item-button-container">
           <button class="delete-item-button">Delete</button>
         </div>
       </section>
-        <p class='garage-item-body'>${item.body}</p>
+        <p class='garage-item-body'><span>Reason why its still here: </span> ${item.body}</p>
       <section class='garage-item-rating'>
         <div class="drop-down-placeholder">
           <p class='rating'>${item.rating}</p>
@@ -162,4 +184,9 @@ function prependGarageItem(item) {
       </section>
     </article>
   `);
+}
+
+function hideInfo() {
+  const title = $(this).parent().siblings();
+  title.toggleClass('hide-info');
 }

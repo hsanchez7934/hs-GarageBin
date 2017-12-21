@@ -77,14 +77,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 getGarageItems();
+__WEBPACK_IMPORTED_MODULE_0_jquery___default()(document).ready(function () {
+  openGarage();
+});
 
+function openGarage() {
+  const door = __WEBPACK_IMPORTED_MODULE_0_jquery___default()('#wrapper');
+  door.slideUp(400);
+}
+
+__WEBPACK_IMPORTED_MODULE_0_jquery___default()('#a-z-button').on('click', sortAZ);
+
+__WEBPACK_IMPORTED_MODULE_0_jquery___default()('#garage-items-container').on('click', '.garage-item-title', hideInfo);
 __WEBPACK_IMPORTED_MODULE_0_jquery___default()('#submit-button').on('click', onSubmitButtonClick);
 // eslint-disable-next-line
-__WEBPACK_IMPORTED_MODULE_0_jquery___default()('#garage-items-container').on('click', '.delete-item-button', onDeleteGarageItemButtonClick).on('click', '.list-item', onClickListItem).on('click', '.drop-down-placeholder', placeHolderOnClick);
+__WEBPACK_IMPORTED_MODULE_0_jquery___default()('#garage-items-container').on('click', '.delete-item-button', onDeleteGarageItemButtonClick)
+// eslint-disable-next-line
+.on('click', '.list-item', onClickListItem)
+// eslint-disable-next-line
+.on('click', '.drop-down-placeholder', placeHolderOnClick);
 
 function placeHolderOnClick() {
+  // eslint-disable-next-line
   const sibling = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this).siblings('.drop-down-hidden').toggleClass('drop-down-visible');
-  // console.log(sibling);
 }
 
 function GarageItem(title, body) {
@@ -95,11 +110,15 @@ function GarageItem(title, body) {
 
 function onClickListItem() {
   const dropDownPlaceholder = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this).text();
+  // eslint-disable-next-line
   __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this).closest('.drop-down-visible').siblings().children('.rating').text(dropDownPlaceholder);
-
+  // eslint-disable-next-line
   const id = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this).closest('.drop-down-visible').closest('.garage-item').attr('id');
+  // eslint-disable-next-line
   const title = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this).closest('.garage-item-rating').siblings('.garage-item-title-container').children('.garage-item-title').text();
+  // eslint-disable-next-line
   const body = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this).closest('.garage-item-rating').siblings('.garage-item-body').text();
+  // eslint-disable-next-line
   const rating = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this).closest('.drop-down-visible').siblings().children('.rating').text();
   const item = {
     title,
@@ -195,18 +214,23 @@ function postNewGarageItem(item) {
   .catch(error => console.log(error));
 }
 
-function sortAlphabetically() {}
+function sortAZ() {
+  const list = __WEBPACK_IMPORTED_MODULE_0_jquery___default()('#garage-items-container').children();
+  const array = Array.from(list);
+  console.log(array);
+  // array.sort();
+}
 
 function prependGarageItem(item) {
   __WEBPACK_IMPORTED_MODULE_0_jquery___default()('#garage-items-container').prepend(`
     <article class="garage-item" id=${item.id}>
       <section class="garage-item-title-container">
-        <h3 class='garage-item-title'>${item.title}</h3>
+        <h3 class='garage-item-title'><span>Garage Item: </span> ${item.title}</h3>
         <div class="delete-item-button-container">
           <button class="delete-item-button">Delete</button>
         </div>
       </section>
-        <p class='garage-item-body'>${item.body}</p>
+        <p class='garage-item-body'><span>Reason why its still here: </span> ${item.body}</p>
       <section class='garage-item-rating'>
         <div class="drop-down-placeholder">
           <p class='rating'>${item.rating}</p>
@@ -224,6 +248,11 @@ function prependGarageItem(item) {
       </section>
     </article>
   `);
+}
+
+function hideInfo() {
+  const title = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this).parent().siblings();
+  title.toggleClass('hide-info');
 }
 
 /***/ }),
@@ -10526,7 +10555,7 @@ exports = module.exports = __webpack_require__(4)(undefined);
 
 
 // module
-exports.push([module.i, "header {\n  width: 100%;\n  height: 500px;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  background-color: #004d4d; }\n\nh1 {\n  color: #f2f2f2; }\n\ninput {\n  height: 50px;\n  width: 40%;\n  padding-left: 10px;\n  font-size: 18px;\n  margin-bottom: 40px; }\n\n#submit-button {\n  width: 40%;\n  height: 50px;\n  font-size: 18px;\n  font-weight: 600;\n  background-color: #999999;\n  color: #f2f2f2; }\n\n#submit-button:hover {\n  cursor: pointer;\n  color: #000;\n  background-color: #f2f2f2; }\n\n#submit-button:focus {\n  outline: inherit; }\n\nmain {\n  width: 100%; }\n\n#filter-container {\n  width: 100%;\n  height: 100px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  padding-top: 30px; }\n\n#garage-items-container {\n  width: 100%;\n  padding: 50px 0px; }\n\n.garage-item {\n  height: 500px;\n  width: 40%;\n  margin: 0px auto 50px auto;\n  border-bottom: 1px solid #000; }\n\n.garage-item-title-container {\n  height: 10%;\n  width: 100%;\n  display: flex;\n  flex-direction: row; }\n\n.garage-item-title {\n  margin: 0;\n  width: 80%;\n  height: 100%;\n  font-size: 26px; }\n\n.delete-item-button-container {\n  width: 20%;\n  height: 100%; }\n\n.garage-item-body {\n  height: 60%;\n  width: 100%;\n  background-color: white;\n  margin: 0;\n  padding: 10px 0px; }\n\n.garage-item-rating {\n  height: 30%;\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center; }\n\n.drop-down-list {\n  margin: 0; }\n\n.list-item {\n  text-align: center;\n  list-style: none;\n  padding: 5px 0px;\n  font-size: 16px; }\n\n.drop-down-hidden {\n  display: none; }\n\n.drop-down-visible {\n  display: block;\n  background-color: #000;\n  width: 20%;\n  position: absolute;\n  margin-top: 74px;\n  color: #f2f2f2; }\n\n.list-item:hover {\n  background-color: #00b3b3;\n  cursor: pointer;\n  color: #000; }\n\n.drop-down-placeholder {\n  width: 50%;\n  height: 50px;\n  background-color: #004d4d; }\n\n.drop-down-placeholder:hover {\n  cursor: pointer;\n  background-color: #00b3b3; }\n\n.delete-item-button {\n  height: 40px;\n  width: 90px;\n  background-color: #004d4d;\n  color: #f2f2f2;\n  font-size: 14px; }\n\n.delete-item-button:hover {\n  background-color: #00b3b3;\n  color: #f2f2f2;\n  font-size: 14px;\n  cursor: pointer; }\n\n.rating {\n  color: #fff;\n  padding: 10px;\n  font-size: 20px;\n  margin: 0; }\n\n* {\n  box-sizing: border-box;\n  padding: 0; }\n\nhtml {\n  font-size: 1em;\n  height: 100%;\n  width: 100%;\n  margin: 0;\n  padding: 0; }\n\nbody {\n  font-family: 'Open Sans', sans-serif;\n  margin: 0;\n  padding: 0;\n  height: 100%;\n  width: 100%; }\n", ""]);
+exports.push([module.i, "header {\n  width: 100%;\n  height: 500px;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  background-color: #004d4d; }\n\nh1 {\n  color: #f2f2f2; }\n\ninput {\n  height: 50px;\n  width: 40%;\n  padding-left: 10px;\n  font-size: 18px;\n  margin-bottom: 40px; }\n\n#submit-button {\n  width: 40%;\n  height: 50px;\n  font-size: 18px;\n  font-weight: 600;\n  background-color: #999999;\n  color: #f2f2f2; }\n\n#submit-button:hover {\n  cursor: pointer;\n  color: #000;\n  background-color: #f2f2f2; }\n\n#submit-button:focus {\n  outline: inherit; }\n\nspan {\n  font-weight: 600;\n  color: red; }\n\nmain {\n  width: 100%; }\n\n#wrapper {\n  background-size: cover;\n  background-position: center;\n  background-repeat: no-repeat;\n  position: absolute;\n  height: 100vh;\n  width: 100%; }\n\n#filter-container {\n  width: 100%;\n  height: 100px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  padding-top: 30px; }\n\n#garage-items-container {\n  width: 100%;\n  padding: 50px 0px; }\n\n.garage-item {\n  width: 40%;\n  margin: 0px auto 130px auto;\n  border-bottom: 1px solid #000;\n  padding: 0px 0px 30px 0px; }\n\n.garage-item-title-container {\n  height: 10%;\n  width: 100%;\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 20px; }\n\n.garage-item-title {\n  margin: 0;\n  width: 80%;\n  height: 100%;\n  font-size: 26px; }\n\n.garage-item-title:hover {\n  cursor: pointer;\n  background-color: black;\n  color: white; }\n\n.delete-item-button-container {\n  width: 20%;\n  height: 100%; }\n\n.garage-item-body {\n  display: none;\n  height: 60%;\n  width: 100%;\n  background-color: white;\n  margin: 0px 0px 50px 0px;\n  padding: 10px 0px;\n  font-size: 20px; }\n\n.garage-item-rating {\n  height: 30%;\n  width: 100%;\n  display: none; }\n\n.drop-down-list {\n  margin: 0; }\n\n.list-item {\n  text-align: center;\n  list-style: none;\n  padding: 5px 0px;\n  font-size: 16px; }\n\n.drop-down-hidden {\n  display: none; }\n\n.drop-down-visible {\n  display: block;\n  background-color: #000;\n  width: 20%;\n  position: absolute;\n  margin-top: 0px;\n  color: #f2f2f2;\n  margin-left: 206px; }\n\n.list-item:hover {\n  background-color: #00b3b3;\n  cursor: pointer;\n  color: #000; }\n\n.drop-down-placeholder {\n  margin: 0 auto;\n  width: 50%;\n  height: 50px;\n  background-color: #004d4d; }\n\n.drop-down-placeholder:hover {\n  cursor: pointer;\n  background-color: #00b3b3; }\n\n.delete-item-button {\n  height: 40px;\n  width: 90px;\n  background-color: #004d4d;\n  color: #f2f2f2;\n  font-size: 14px; }\n\n.delete-item-button:hover {\n  background-color: #00b3b3;\n  color: #f2f2f2;\n  font-size: 14px;\n  cursor: pointer; }\n\n.rating {\n  color: #fff;\n  padding: 10px;\n  font-size: 20px;\n  margin: 0; }\n\n.hide-info {\n  display: block; }\n\n* {\n  box-sizing: border-box;\n  padding: 0; }\n\nhtml {\n  font-size: 1em;\n  height: 100%;\n  width: 100%;\n  margin: 0;\n  padding: 0; }\n\nbody {\n  font-family: 'Open Sans', sans-serif;\n  margin: 0;\n  padding: 0;\n  height: 100%;\n  width: 100%; }\n", ""]);
 
 // exports
 
