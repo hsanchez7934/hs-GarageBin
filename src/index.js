@@ -2,16 +2,48 @@ import $ from 'jquery';
 import './styles.scss';
 
 getGarageItems();
-$(document).ready(function() {
-  openGarage();
-});
+// $(document).ready(countRating);
+
+
+$('#garage-button-open').on('click', openGarage);
+$('#garage-button-close').on('click', closeGarage);
 
 function openGarage() {
   const door = $('#wrapper');
   door.slideUp(5000);
+  countItems();
+  countRating();
+}
+
+function closeGarage() {
+  const door = $('#wrapper');
+  door.slideDown(5000);
 }
 
 $('#a-z-button').on('click', sortAZ);
+
+function sortAZ() {
+  let array = [];
+  const list = $('#garage-items-container').children();
+  list.each((index, element) => {
+    const el = $(element).children('.garage-item-title-container').children('h3.garage-item-title').text();
+    // console.log(el);
+    array.push(el);
+  });
+
+  const sorted = array.sort();
+  // console.log(sorted);
+  let list2 = $('#garage-items-container').children('.garage-item').children('.garage-item-title-container').children('h3.garage-item-title');
+  let idArray = [];
+  for (var i = 0; i < list2.length; i++) {
+    let text = list2[i].innerText;
+    // console.log(text);
+    if (text.indexOf(sorted)) {
+      let id = $(list2[i]).text();
+      console.log(id);
+    }
+  }
+}
 
 $('#garage-items-container').on('click', '.garage-item-title', hideInfo);
 $('#submit-button').on('click', onSubmitButtonClick);
@@ -42,9 +74,11 @@ function onClickListItem() {
   // eslint-disable-next-line
   const id = $(this).closest('.drop-down-visible').closest('.garage-item').attr('id');
   // eslint-disable-next-line
-  const title = $(this).closest('.garage-item-rating').siblings('.garage-item-title-container').children('.garage-item-title').text();
+  const title = $(this).closest('.reason').siblings('.garage-item-title-container').children('.garage-item-title').text();
+  console.log(title);
   // eslint-disable-next-line
   const body = $(this).closest('.garage-item-rating').siblings('.garage-item-body').text();
+
   // eslint-disable-next-line
   const rating = $(this).closest('.drop-down-visible').siblings().children('.rating').text();
   const item = {
@@ -54,7 +88,7 @@ function onClickListItem() {
   };
   patchGarageItem(id, item);
   $(this).closest('.drop-down-visible').toggleClass('drop-down-visible');
-
+  countRating();
 }
 
 function patchGarageItem(id, item) {
@@ -78,7 +112,11 @@ function patchGarageItem(id, item) {
       }
     })
     // eslint-disable-next-line
-    .then(response => console.log(response))
+    .then(response => {
+      console.log(response);
+      countRating();
+      countItems();
+    })
     // eslint-disable-next-line
     .catch(error => console.log(error));
 }
@@ -90,6 +128,7 @@ function onSubmitButtonClick() {
   postNewGarageItem(newGarageItem);
   $('#title-input').val('');
   $('#body-input').val('');
+
 }
 
 function onDeleteGarageItemButtonClick() {
@@ -103,7 +142,11 @@ function destroyGarageItem(id) {
     method: 'DELETE',
   })
   // eslint-disable-next-line
-    .then(response => console.log('deleted'))
+    .then(response => {
+      console.log('deleted');
+      countItems();
+      countRating();
+    })
     // eslint-disable-next-line
     .catch(error => console.log(error));
 }
@@ -115,9 +158,11 @@ function getGarageItems() {
         return response.json();
       }
     })
-    .then(parsedResponse => parsedResponse.forEach(
-      item => prependGarageItem(item))
-    )
+    .then(parsedResponse => {
+      parsedResponse.forEach(item => prependGarageItem(item));
+      countRating();
+      countItems();
+    })
     // eslint-disable-next-line
     .catch(error => console.log(error));
 }
@@ -144,29 +189,27 @@ function postNewGarageItem(item) {
     })
     .then(parsedResponse => {
       prependGarageItem(parsedResponse);
+      countItems();
+      countRating();
     })
     // eslint-disable-next-line
     .catch(error => console.log(error));
 }
 
-function sortAZ() {
-  const list = $('#garage-items-container').children();
-  const array = Array.from(list);
-  console.log(array);
-  // array.sort();
 
-}
 
 function prependGarageItem(item) {
   $('#garage-items-container').prepend(`
     <article class="garage-item" id=${item.id}>
       <section class="garage-item-title-container">
-        <h3 class='garage-item-title'><span>Garage Item: </span> ${item.title}</h3>
+        <span>Garage Item: </span><h3 class='garage-item-title'>${item.title}</h3>
         <div class="delete-item-button-container">
           <button class="delete-item-button">Delete</button>
         </div>
       </section>
-        <p class='garage-item-body'><span>Reason why its still here: </span> ${item.body}</p>
+      <div class="reason">
+          <span>Reason why its still here: </span><p class='garage-item-body'>${item.body}</p>
+
       <section class='garage-item-rating'>
         <div class="drop-down-placeholder">
           <p class='rating'>${item.rating}</p>
@@ -182,11 +225,40 @@ function prependGarageItem(item) {
           </ul>
         </div>
       </section>
+      </div>
     </article>
   `);
 }
 
 function hideInfo() {
   const title = $(this).parent().siblings();
-  title.toggleClass('hide-info');
+  title.toggleClass('reason-visible');
 }
+
+function countItems() {
+  const list = $('#garage-items-container').children();
+  $('#items-count').text('Garage Items: ' + list.length);
+}
+
+function countRating() {
+  const list = $('#garage-items-container').children().children('.reason').find('.rating');
+  let rancidArr = [];
+  let dustyArr = [];
+  let sparklingArr = [];
+  let text;
+  for (let i = 0; i < list.length; i++) {
+    text = list[i].innerText;
+    if (text === 'Rancid') {
+      rancidArr.push(text);
+    }
+    if (text === 'Dusty') {
+      dustyArr.push(text);
+    }
+    if (text === 'Sparkling') {
+      sparklingArr.push(text);
+    }
+  }
+  $('#rancid-count').text('Rancid: ' + rancidArr.length);
+  $('#dusty-count').text('Dusty: ' + dustyArr.length);
+  $('#sparkling-count').text('Sparkling: ' + sparklingArr.length);
+};

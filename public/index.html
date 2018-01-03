@@ -13,12 +13,20 @@
       <input type="text" id="title-input"  placeholder="Enter garage item title...">
       <input type="text" id="body-input"  placeholder="Enter garage item description...">
       <button id="submit-button">Submit</button>
+      <button id="garage-button-open">Open Garage</button>
+      <button id="garage-button-close">Close Garage</button>
     </header>
     <main>
       <div id="wrapper" style="background-image:url(./assets/garagedoor.jpg)">
 
       </div>
       <section id="filter-container">
+        <div id="count-box">
+          <p id='items-count'></p>
+          <p id='rancid-count'></p>
+          <p id='dusty-count'></p>
+          <p id='sparkling-count'></p>
+        </div>
         <button type="button" name="button" id='a-z-button'>Filter by A-Z</button>
         <button type="button" name="button" id='z-a-button'>Filter by Z-A</button>
       </section>

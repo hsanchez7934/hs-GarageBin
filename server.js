@@ -60,14 +60,14 @@ app.delete(`/api/v1/items/:id`, (request, response) => {
 app.patch(`/api/v1/items/:id`, (request, response) => {
   const { id } = request.params;
   const alteration = request.body;
-
+  
   if (!alteration.title || !alteration.body || !alteration.rating) {
     return response.status(422).json(
       // eslint-disable-next-line max-len
       { error: `Must send patch as object literal with keys of body, title, and rating with string value.`}
     );
   }
-  
+
   database('garage_items').where('id', id)
     .update(alteration, '*')
     .then(update =>

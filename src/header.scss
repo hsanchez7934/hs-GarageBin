@@ -35,6 +35,39 @@ input {
   background-color: #f2f2f2;
 }
 
+
 #submit-button:focus {
   outline: inherit;
+}
+
+#garage-button-open {
+  width: 40%;
+  height: 50px;
+  font-size: 18px;
+  font-weight: 600;
+  background-color: #999999;
+  color: #f2f2f2;
+  margin-top: 30px;
+}
+
+#garage-button-close {
+  width: 40%;
+  height: 50px;
+  font-size: 18px;
+  font-weight: 600;
+  background-color: #999999;
+  color: #f2f2f2;
+  margin-top: 30px;
+}
+
+#garage-button-open:hover {
+  cursor: pointer;
+  color: #000;
+  background-color: #f2f2f2;
+}
+
+#garage-button-close:hover {
+  cursor: pointer;
+  color: #000;
+  background-color: #f2f2f2;
 }

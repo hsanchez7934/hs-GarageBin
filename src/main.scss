@@ -24,9 +24,10 @@ main {
 
 #filter-container {
   width: 100%;
-  height: 100px;
+  height: 200px;
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
   padding-top: 30px;
 }
@@ -69,8 +70,15 @@ main {
   height: 100%;
 }
 
-.garage-item-body {
+.reason {
   display: none;
+}
+
+.reason-visible {
+  display: block;
+}
+
+.garage-item-body {
   height: 60%;
   width: 100%;
   background-color: white;
@@ -82,7 +90,6 @@ main {
 .garage-item-rating {
   height: 30%;
   width: 100%;
-  display: none;
 }
 
 .drop-down-list {
